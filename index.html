@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>精密导轨业务助理 · AI 提示词库</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  --bg: #f4f1eb;
+  --surface: #fffcf7;
+  --ink: #1b1917;
+  --muted: #57534e;
+  --line: #d6d0c8;
+  --accent: #0d6b63;
+  --accent-soft: rgba(13, 107, 99, 0.12);
+  --accent-hover: #0a544e;
+  --chip: #e7e2da;
+  --shadow: 0 12px 40px rgba(27, 25, 23, 0.08);
+  --radius: 14px;
+  --font-ui: "DM Sans", -apple-system, system-ui, sans-serif;
+  --font-display: "Source Serif 4", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 900px 500px at 10% -10%, rgba(13, 107, 99, 0.07), transparent 55%),
+    radial-gradient(ellipse 700px 400px at 100% 0%, rgba(180, 83, 9, 0.05), transparent 50%);
+  min-height: 100vh;
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+header.hero {
+  padding: 36px 28px 28px;
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  margin-bottom: 22px;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+
+.hero p.lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  max-width: 62ch;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.hero-meta span {
+  padding: 6px 11px;
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  margin: 0 -4px 22px;
+  background: rgba(244, 241, 235, 0.92);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+.toolbar label {
+  flex: 1 1 220px;
+  position: relative;
+}
+
+.toolbar input[type="search"] {
+  width: 100%;
+  padding: 11px 14px 11px 38px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+  background: var(--surface);
+}
+
+.toolbar label::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  opacity: 0.45;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2357534e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips button {
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 8px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chips button:hover { background: var(--chip); }
+.chips button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+section.block {
+  margin-bottom: 36px;
+}
+
+section.block > h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+section.block > .sub {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+}
+
+.flow-steps {
+  white-space: pre-wrap;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+table.data th,
+table.data td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+table.data th {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+table.data tr:hover td { background: rgba(13, 107, 99, 0.04); }
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.toc-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #faf8f5;
+}
+
+.toc-card h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.toc-card p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.toc-card .freq {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(27, 25, 23, 0.05);
+}
+
+.card.hidden { display: none; }
+
+.card-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.card-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+  flex: 1 1 280px;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.meta-row span {
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--chip);
+  color: var(--muted);
+}
+
+.meta-row span strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 0;
+}
+
+pre.prompt {
+  margin: 0;
+  padding: 18px 20px;
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #f0ece4;
+  border-top: 1px solid var(--line);
+  color: #292524;
+}
+
+.card-actions {
+  padding: 12px 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.btn {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn:hover { background: var(--accent-hover); }
+.btn.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn.secondary:hover { background: var(--accent-soft); }
+
+.daily-grid {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 720px) {
+  .daily-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.daily-box {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+  background: #faf8f5;
+}
+
+.daily-box h4 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+}
+
+.daily-box pre {
+  margin: 0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  color: var(--ink);
+}
+
+.note {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+#overview-table tbody tr.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>精密导轨业务助理 · AI 提示词库</h1>
+      <p class="lead">舒展版网页：支持全文检索、分类筛选与一键复制。数据源自同名 Excel，便于日常浏览器中使用。</p>
+      <div class="hero-meta">
+        <span>客户沟通</span>
+        <span>报价订单</span>
+        <span>生产跟进</span>
+        <span>日报周报</span>
+        <span>领导汇报</span>
+        <span>会议纪要</span>
+        <span>英文邮件</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <label>
+        <input type="search" id="q" placeholder="搜索标题、场景、提示词正文…" autocomplete="off" />
+      </label>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <nav style="font-size:0.88rem;color:var(--muted);margin-bottom:20px;">
+      快速跳转：
+      <a href="#usage">使用说明</a> ·
+      <a href="#overview">总览表</a> ·
+      <a href="#prompts">提示词全文</a> ·
+      <a href="#daily">日报周报专区</a> ·
+      <a href="#english">英文邮件模板</a>
+    </nav>
+
+    <section class="block" id="usage">
+      <h2>目录与推荐使用流程</h2>
+      <p class="sub">按模块浏览；复制进 AI 前请先核对型号、数量、交期等关键数据。</p>
+      <div class="panel" style="margin-bottom:16px;">
+        <div id="workflow" class="flow-steps"></div>
+      </div>
+      <div class="toc-grid" id="toc-grid"></div>
+    </section>
+
+    <section class="block" id="overview">
+      <h2>提示词库总览</h2>
+      <p class="sub">快速对照场景与所需材料；长提示词见下文卡片。</p>
+      <div class="panel" style="overflow:auto;">
+        <table class="data" id="overview-table">
+          <thead>
+            <tr>
+              <th>分类</th>
+              <th>名称</th>
+              <th>适用场景</th>
+              <th>频率</th>
+              <th>需准备信息</th>
+              <th>输出</th>
+            </tr>
+          </thead>
+          <tbody id="overview-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block" id="prompts">
+      <h2>提示词全文（复制区）</h2>
+      <p class="sub">每条含元信息与可直接复制的提示词正文。</p>
+      <div class="cards" id="cards"></div>
+    </section>
+
+    <section class="block" id="daily">
+      <h2>日报 / 周报 专区</h2>
+      <p class="sub">固定结构与可直接粘贴的生成提示词。</p>
+      <div class="daily-grid" id="daily-section"></div>
+    </section>
+
+    <section class="block" id="english">
+      <h2>常用英文邮件模板</h2>
+      <p class="sub">商务往来高频句式；发送前请替换占位符并核对事实。</p>
+      <div class="cards" id="english-cards"></div>
+    </section>
+
+    <footer>
+      本地离线可用（除 Google 字体外）。来源文件：《精密导轨业务助理AI提示词库_舒展版.xlsx》
+    </footer>
+  </div>
+
+  <script type="application/json" id="payload">{"overview": [{"cat": "客户沟通", "name": "客户邮件专业化", "scene": "中文/英文邮件润色", "freq": "每日", "need": "草稿内容、客户背景、目的", "out": "正式商务邮件"}, {"cat": "客户沟通", "name": "英文询盘回复", "scene": "国外客户询盘", "freq": "高频", "need": "客户询盘、产品型号、数量", "out": "英文回复邮件"}, {"cat": "客户沟通", "name": "催客户确认订单", "scene": "PO/PI未确认", "freq": "高频", "need": "订单背景、上次沟通时间", "out": "跟进邮件/微信话术"}, {"cat": "客户沟通", "name": "交期延期说明", "scene": "生产/供应商延期", "freq": "中频", "need": "延期原因、影响、预计完成时间", "out": "客户解释邮件"}, {"cat": "客户沟通", "name": "客户需求分析", "scene": "看懂客户真正关注点", "freq": "每周", "need": "聊天记录/邮件记录", "out": "需求分析+跟进策略"}, {"cat": "报价订单", "name": "报价说明生成", "scene": "报价单说明/报价邮件", "freq": "高频", "need": "型号、数量、价格、交期", "out": "报价说明文字"}, {"cat": "报价订单", "name": "PI/PO确认邮件", "scene": "订单确认", "freq": "高频", "need": "PI/PO信息", "out": "订单确认邮件"}, {"cat": "报价订单", "name": "订单信息核对", "scene": "下单前防错", "freq": "每日", "need": "订单/报价/客户要求", "out": "核对清单"}, {"cat": "生产跟进", "name": "生产进度跟踪", "scene": "每日生产协调", "freq": "每日", "need": "产品、工序、进度、问题", "out": "生产进度表"}, {"cat": "生产跟进", "name": "异常问题整理", "scene": "生产/品质/交付异常", "freq": "高频", "need": "异常描述、影响、责任方", "out": "异常闭环表"}, {"cat": "生产跟进", "name": "微信聊天转待办", "scene": "从聊天记录提取任务", "freq": "每日", "need": "微信群/私聊记录", "out": "待办清单"}, {"cat": "生产跟进", "name": "出货前检查清单", "scene": "发货前防遗漏", "freq": "高频", "need": "出货信息、客户要求", "out": "出货Checklist"}, {"cat": "日报周报", "name": "日报自动生成", "scene": "每天工作总结", "freq": "每日", "need": "当天工作记录", "out": "日报"}, {"cat": "日报周报", "name": "结果型日报", "scene": "让日报更像成果汇报", "freq": "每日", "need": "普通流水账", "out": "结果导向日报"}, {"cat": "日报周报", "name": "周报自动生成", "scene": "每周工作汇总", "freq": "每周", "need": "本周工作记录", "out": "周报"}, {"cat": "日报周报", "name": "项目推进型周报", "scene": "按客户/项目汇报", "freq": "每周", "need": "客户项目进展", "out": "项目周报表"}, {"cat": "日报周报", "name": "异常闭环周报", "scene": "周会/品质异常汇报", "freq": "每周", "need": "本周异常事项", "out": "异常闭环周报"}, {"cat": "领导汇报", "name": "工作汇报优化", "scene": "向领导说明进展", "freq": "每日", "need": "原始工作内容", "out": "汇报话术"}, {"cat": "领导汇报", "name": "工作优先级排序", "scene": "任务太多时排序", "freq": "每日", "need": "待办列表", "out": "优先级建议"}, {"cat": "领导汇报", "name": "客户项目推进表", "scene": "项目总控", "freq": "每周", "need": "客户、产品、状态、风险", "out": "项目推进总表"}, {"cat": "会议纪要", "name": "会议纪要生成", "scene": "会议记录整理", "freq": "每周", "need": "会议录音转文字/记录", "out": "会议纪要+待办"}, {"cat": "会议纪要", "name": "会后行动清单", "scene": "会后任务落地", "freq": "每周", "need": "会议纪要/聊天记录", "out": "行动清单"}, {"cat": "英文邮件", "name": "展会客户跟进", "scene": "展会后跟进客户", "freq": "低频", "need": "客户名、展会、产品兴趣点", "out": "英文跟进邮件"}, {"cat": "英文邮件", "name": "发货通知英文邮件", "scene": "出货后通知客户", "freq": "高频", "need": "快递、单号、产品、数量", "out": "英文发货通知"}], "toc": [{"idx": 1, "module": "客户沟通", "purpose": "客户邮件、询盘、催单、延期解释", "paste": "邮件原文 / 客户聊天记录 / 订单背景", "freq": "每日"}, {"idx": 2, "module": "报价订单", "purpose": "报价说明、PI/PO确认、订单核对", "paste": "报价信息 / 型号数量 / 付款交期", "freq": "高频"}, {"idx": 3, "module": "生产跟进", "purpose": "生产进度、异常闭环、出货检查", "paste": "生产群聊天 / 工序状态 / 异常记录", "freq": "每日"}, {"idx": 4, "module": "日报周报", "purpose": "日报、周报、项目型汇报", "paste": "每天工作记录 / 一周工作记录", "freq": "每日/每周"}, {"idx": 5, "module": "领导汇报", "purpose": "汇报话术、优先级、项目总控", "paste": "原始工作事项 / 风险问题 / 待办", "freq": "每日"}, {"idx": 6, "module": "会议纪要", "purpose": "会议内容整理、行动项提取", "paste": "会议录音转文字 / 手写记录", "freq": "每周"}, {"idx": 7, "module": "英文邮件", "purpose": "展会跟进、发货通知、国外客户沟通", "paste": "英文草稿 / 中文要点 / 客户背景", "freq": "按需"}], "workflow": "推荐使用流程\n\n第一步：把原始信息复制给AI，例如微信聊天、邮件草稿、客户要求、生产进度。\n第二步：先让AI整理成表格，确认“事项、责任人、时间节点、风险”。\n第三步：再让AI生成邮件、日报、周报或领导汇报。\n第四步：人工核对型号、数量、价格、交期、客户名称，避免AI误填关键数据。", "blocks": [{"title": "01  客户沟通｜客户邮件专业化", "meta": {"适用场景": "中文/英文邮件润色", "使用频率": "每日", "需要准备": "草稿内容、客户背景、目的", "输出结果": "正式商务邮件", "操作建议": "直接复制下方提示词"}, "prompt": "你现在是一名精密导轨制造行业业务助理。\n\n请把下面内容优化成适合发给客户的商务邮件。\n要求：\n1. 语气专业、礼貌、简洁；\n2. 保留原意，不新增未确认信息；\n3. 逻辑清晰，重点突出交期、型号、数量、下一步；\n4. 如适合，请同时输出中文和英文版本。\n\n原始内容：\n【粘贴内容】"}, {"title": "02  客户沟通｜英文询盘回复", "meta": {"适用场景": "国外客户询盘", "使用频率": "高频", "需要准备": "客户询盘、产品型号、数量", "输出结果": "英文回复邮件", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我回复国外客户询盘。\n\n产品方向：精密导轨 / 滑轨 / 线性模组 / 精密运动部件。\n要求：\n1. 英文商务风格，自然不生硬；\n2. 体现工厂专业度；\n3. 引导客户补充型号、图纸、数量、应用场景、目标交期；\n4. 结尾给出下一步动作。\n\n客户原文：\n【粘贴客户询盘】"}, {"title": "03  客户沟通｜催客户确认订单", "meta": {"适用场景": "PO/PI未确认", "使用频率": "高频", "需要准备": "订单背景、上次沟通时间", "输出结果": "跟进邮件/微信话术", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我写一段订单确认跟进话术。\n\n目的：提醒客户确认订单或PI。\n要求：\n1. 礼貌，不给客户压力；\n2. 简洁，适合邮件或微信；\n3. 明确说明需要客户确认的事项；\n4. 结尾提示确认后我们将继续安排生产/备料。\n\n背景：\n【粘贴背景】"}, {"title": "04  客户沟通｜交期延期说明", "meta": {"适用场景": "生产/供应商延期", "使用频率": "中频", "需要准备": "延期原因、影响、预计完成时间", "输出结果": "客户解释邮件", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我生成一封交期延期说明邮件。\n\n要求：\n1. 专业、诚恳，不推卸责任；\n2. 说明当前进度、延期原因、预计完成时间；\n3. 给出补救措施；\n4. 降低客户不满，增强客户信任。\n\n延期情况：\n【粘贴延期原因和当前进度】"}, {"title": "05  客户沟通｜客户需求分析", "meta": {"适用场景": "看懂客户真正关注点", "使用频率": "每周", "需要准备": "聊天记录/邮件记录", "输出结果": "需求分析+跟进策略", "操作建议": "直接复制下方提示词"}, "prompt": "请分析客户真实需求。\n\n请输出：\n1. 客户显性需求；\n2. 客户隐性需求；\n3. 客户最关注的问题：价格/交期/质量/稳定性/认证/售后；\n4. 当前风险；\n5. 推荐跟进策略；\n6. 下一步我应该怎么回复。\n\n客户沟通内容：\n【粘贴内容】"}, {"title": "06  报价订单｜报价说明生成", "meta": {"适用场景": "报价单说明/报价邮件", "使用频率": "高频", "需要准备": "型号、数量、价格、交期", "输出结果": "报价说明文字", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我生成一段报价说明。\n\n产品：精密导轨 / 滑块 / 滑轨 / 线性模组。\n请包含：\n1. 产品型号；\n2. 数量；\n3. 单价/总价；\n4. 交期；\n5. 包装方式；\n6. 运输方式；\n7. 付款方式；\n8. 报价有效期；\n9. 注意事项。\n\n原始信息：\n【粘贴信息】"}, {"title": "07  报价订单｜PI/PO确认邮件", "meta": {"适用场景": "订单确认", "使用频率": "高频", "需要准备": "PI/PO信息", "输出结果": "订单确认邮件", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我生成PI/PO确认邮件。\n\n要求：\n1. 简洁专业；\n2. 确认客户名称、产品型号、数量、金额、交期、付款方式；\n3. 提醒客户核对信息；\n4. 说明确认后下一步安排。\n\n订单信息：\n【粘贴PI或PO信息】"}, {"title": "08  报价订单｜订单信息核对", "meta": {"适用场景": "下单前防错", "使用频率": "每日", "需要准备": "订单/报价/客户要求", "输出结果": "核对清单", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我检查下面订单信息是否完整。\n\n请按表格输出：\n1. 已明确的信息；\n2. 缺失的信息；\n3. 需要向客户确认的问题；\n4. 可能影响交期或价格的风险点。\n\n订单内容：\n【粘贴订单信息】"}, {"title": "09  生产跟进｜生产进度跟踪", "meta": {"适用场景": "每日生产协调", "使用频率": "每日", "需要准备": "产品、工序、进度、问题", "输出结果": "生产进度表", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我整理生产进度表。\n\n输出字段：\n1. 客户名称；\n2. 产品型号；\n3. 数量；\n4. 当前工序；\n5. 当前进度；\n6. 风险问题；\n7. 预计完成时间；\n8. 责任部门；\n9. 下一步动作。\n\n原始信息：\n【粘贴内容】"}, {"title": "10  生产跟进｜异常问题整理", "meta": {"适用场景": "生产/品质/交付异常", "使用频率": "高频", "需要准备": "异常描述、影响、责任方", "输出结果": "异常闭环表", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我整理工厂异常问题。\n\n请按表格输出：\n1. 问题描述；\n2. 发生时间；\n3. 影响范围；\n4. 当前状态；\n5. 临时措施；\n6. 长期改善措施；\n7. 责任人；\n8. 完成时间；\n9. 是否关闭。\n\n异常内容：\n【粘贴内容】"}, {"title": "11  生产跟进｜微信聊天转待办", "meta": {"适用场景": "从聊天记录提取任务", "使用频率": "每日", "需要准备": "微信群/私聊记录", "输出结果": "待办清单", "操作建议": "直接复制下方提示词"}, "prompt": "请从下面聊天记录中自动提取工作待办。\n\n输出字段：\n1. 待办事项；\n2. 责任人；\n3. 截止时间；\n4. 当前卡点；\n5. 风险等级；\n6. 下一步动作。\n\n要求：不要漏掉隐含任务。\n\n聊天记录：\n【粘贴聊天记录】"}, {"title": "12  生产跟进｜出货前检查清单", "meta": {"适用场景": "发货前防遗漏", "使用频率": "高频", "需要准备": "出货信息、客户要求", "输出结果": "出货Checklist", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我生成出货前检查清单。\n\n产品：精密导轨/滑轨/线性模组。\n请覆盖：\n1. 产品型号和数量；\n2. 包装标签；\n3. 外观检查；\n4. 尺寸/功能确认；\n5. 客户特殊要求；\n6. 随货文件；\n7. 快递/物流信息；\n8. 发货通知。\n\n出货信息：\n【粘贴内容】"}, {"title": "13  日报周报｜日报自动生成", "meta": {"适用场景": "每天工作总结", "使用频率": "每日", "需要准备": "当天工作记录", "输出结果": "日报", "操作建议": "直接复制下方提示词"}, "prompt": "你是一名制造业业务助理。\n\n请根据下面工作内容生成一份简洁专业的工作日报。\n要求：\n1. 不要流水账；\n2. 重点体现推进结果；\n3. 突出问题、风险和明日计划；\n4. 领导一眼能看懂。\n\n输出格式：\n一、今日完成\n二、当前推进\n三、风险/问题\n四、待确认事项\n五、明日计划\n\n工作内容：\n【粘贴内容】"}, {"title": "14  日报周报｜结果型日报", "meta": {"适用场景": "让日报更像成果汇报", "使用频率": "每日", "需要准备": "普通流水账", "输出结果": "结果导向日报", "操作建议": "直接复制下方提示词"}, "prompt": "请把下面流水账式工作内容改成“结果导向型日报”。\n\n要求：\n1. 把“做了什么”改成“完成了什么/推进了什么”；\n2. 每条尽量包含客户、产品、状态、时间节点；\n3. 对未完成事项说明原因和下一步；\n4. 语言简洁、适合发给领导。\n\n原始日报：\n【粘贴内容】"}, {"title": "15  日报周报｜周报自动生成", "meta": {"适用场景": "每周工作汇总", "使用频率": "每周", "需要准备": "本周工作记录", "输出结果": "周报", "操作建议": "直接复制下方提示词"}, "prompt": "请根据下面工作内容生成业务助理周报。\n\n要求：\n1. 用表格形式；\n2. 一目了然；\n3. 体现项目推进、异常问题和下周重点；\n4. 不写空话。\n\n输出模块：\n1. 本周完成事项；\n2. 本周推进成果；\n3. 当前风险问题；\n4. 未完成事项；\n5. 下周计划；\n6. 需要协助事项。\n\n本周内容：\n【粘贴内容】"}, {"title": "16  日报周报｜项目推进型周报", "meta": {"适用场景": "按客户/项目汇报", "使用频率": "每周", "需要准备": "客户项目进展", "输出结果": "项目周报表", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我整理成项目推进周报。\n\n请按客户和项目分类输出。\n字段：\n1. 客户；\n2. 产品/项目；\n3. 当前阶段；\n4. 本周进展；\n5. 风险问题；\n6. 下周动作；\n7. 责任人；\n8. 时间节点。\n\n项目内容：\n【粘贴内容】"}, {"title": "17  日报周报｜异常闭环周报", "meta": {"适用场景": "周会/品质异常汇报", "使用频率": "每周", "需要准备": "本周异常事项", "输出结果": "异常闭环周报", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我整理本周异常问题汇总。\n\n输出：\n1. 新增问题；\n2. 已关闭问题；\n3. 待关闭问题；\n4. 风险等级；\n5. 当前措施；\n6. 下周计划；\n7. 需要协调的资源。\n\n要求：适合领导会议汇报。\n\n异常记录：\n【粘贴内容】"}, {"title": "18  领导汇报｜工作汇报优化", "meta": {"适用场景": "向领导说明进展", "使用频率": "每日", "需要准备": "原始工作内容", "输出结果": "汇报话术", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我把下面工作内容整理成适合向领导汇报的话术。\n\n要求：\n1. 简洁，不啰嗦；\n2. 体现推进结果；\n3. 重点突出问题和解决方案；\n4. 未完成事项要说明原因和下一步。\n\n内容：\n【粘贴内容】"}, {"title": "19  领导汇报｜工作优先级排序", "meta": {"适用场景": "任务太多时排序", "使用频率": "每日", "需要准备": "待办列表", "输出结果": "优先级建议", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我分析下面工作的优先级。\n\n请输出：\nP0：必须立即处理；\nP1：今天完成；\nP2：本周完成；\nP3：可延后。\n\n每项请说明原因，并给出建议处理顺序。\n\n待办事项：\n【粘贴内容】"}, {"title": "20  领导汇报｜客户项目推进表", "meta": {"适用场景": "项目总控", "使用频率": "每周", "需要准备": "客户、产品、状态、风险", "输出结果": "项目推进总表", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我生成客户项目推进表。\n\n字段包含：\n1. 客户名称；\n2. 产品型号；\n3. 报价状态；\n4. 打样状态；\n5. 订单状态；\n6. 生产状态；\n7. 出货状态；\n8. 风险问题；\n9. 当前负责人；\n10. 下一步动作。\n\n项目信息：\n【粘贴内容】"}, {"title": "21  会议纪要｜会议纪要生成", "meta": {"适用场景": "会议记录整理", "使用频率": "每周", "需要准备": "会议录音转文字/记录", "输出结果": "会议纪要+待办", "操作建议": "直接复制下方提示词"}, "prompt": "请帮我把下面会议内容整理成正式会议纪要。\n\n输出：\n1. 会议主题；\n2. 会议结论；\n3. 关键问题；\n4. 待办事项；\n5. 责任人；\n6. 完成时间；\n7. 需要协调事项。\n\n要求：简洁、清晰、适合会后发群。\n\n会议内容：\n【粘贴内容】"}, {"title": "22  会议纪要｜会后行动清单", "meta": {"适用场景": "会后任务落地", "使用频率": "每周", "需要准备": "会议纪要/聊天记录", "输出结果": "行动清单", "操作建议": "直接复制下方提示词"}, "prompt": "请从下面内容中提取会后行动清单。\n\n输出字段：\n1. 序号；\n2. 行动事项；\n3. 责任人；\n4. 截止时间；\n5. 判断完成的标准；\n6. 风险提醒。\n\n内容：\n【粘贴内容】"}, {"title": "23  英文邮件｜展会客户跟进", "meta": {"适用场景": "展会后跟进客户", "使用频率": "低频", "需要准备": "客户名、展会、产品兴趣点", "输出结果": "英文跟进邮件", "操作建议": "直接复制下方提示词"}, "prompt": "Please help me write a follow-up email after the exhibition.\n\nRequirements:\n1. Professional and natural;\n2. Not too salesy;\n3. Mention our precision guide rail / linear motion products;\n4. Invite the customer to share drawings, models, quantity, and application details;\n5. Keep it concise.\n\nBackground:\n【Paste background information】"}, {"title": "24  英文邮件｜发货通知英文邮件", "meta": {"适用场景": "出货后通知客户", "使用频率": "高频", "需要准备": "快递、单号、产品、数量", "输出结果": "英文发货通知", "操作建议": "直接复制下方提示词"}, "prompt": "Please write a professional shipment notification email.\n\nInclude:\n1. Product name/model;\n2. Quantity;\n3. Shipping date;\n4. Courier/logistics company;\n5. Tracking number;\n6. Estimated delivery time if available;\n7. Contact person for questions.\n\nShipment information:\n【Paste details】"}], "categories": ["客户沟通", "报价订单", "生产跟进", "日报周报", "领导汇报", "会议纪要", "英文邮件"], "daily": {"title_block": "日报 / 周报 专区", "daily_structure_title": "日报固定结构", "daily_structure_body": "一、今日完成\n二、当前推进\n三、风险/问题\n四、待确认事项\n五、明日计划", "daily_tip": "建议：每天只写3-6条重点，不写流水账。", "weekly_structure_title": "周报固定结构", "weekly_structure_body": "一、本周完成事项\n二、本周推进成果\n三、当前风险问题\n四、未完成事项\n五、下周计划\n六、需要协助事项", "weekly_tip": "建议：周报一定要带时间节点和责任人。", "daily_prompt_title": "日报生成提示词", "daily_prompt_body": "你是一名制造业业务助理。\n请根据下面工作内容生成一份简洁专业的工作日报。\n要求：不写流水账；突出推进结果、问题风险、明日计划。\n输出格式：今日完成 / 当前推进 / 风险问题 / 待确认事项 / 明日计划。\n工作内容：【粘贴内容】", "weekly_prompt_title": "周报生成提示词", "weekly_prompt_body": "请根据下面工作内容生成业务助理周报。\n要求：用表格形式，一目了然，体现项目推进、异常问题和下周重点。\n输出模块：本周完成事项 / 本周推进成果 / 当前风险问题 / 未完成事项 / 下周计划 / 需要协助事项。\n本周内容：【粘贴内容】"}, "english": [{"scene": "场景", "subject": "邮件主题建议", "template": "英文模板", "note": "使用说明"}, {"scene": "询盘回复", "subject": "Re: Inquiry for Precision Guide Rails", "template": "Dear [Name],\n\nThank you for your inquiry. We are pleased to support your project for precision guide rails.\n\nTo provide an accurate quotation, could you please share the model, quantity, drawing, application, and target delivery date?\n\nBest regards,\n[Name]", "note": "收到国外客户询盘后使用"}, {"scene": "报价发送", "subject": "Quotation for [Product/Model]", "template": "Dear [Name],\n\nPlease find our quotation for [Product/Model] below/attached.\n\nKindly review the model, quantity, price, delivery time, and payment terms. If everything is acceptable, we will proceed with the next arrangement after your confirmation.\n\nBest regards,\n[Name]", "note": "发送报价单时使用"}, {"scene": "订单确认", "subject": "Order Confirmation - [PO No.]", "template": "Dear [Name],\n\nThank you for your order. We have received your PO for [Product/Model].\n\nWe will review the details and arrange production accordingly. If there are any questions, we will contact you promptly.\n\nBest regards,\n[Name]", "note": "客户下PO后使用"}, {"scene": "发货通知", "subject": "Shipment Notice - [Product/Model]", "template": "Dear [Name],\n\nYour goods have been shipped.\n\nProduct: [Product/Model]\nQuantity: [Quantity]\nCourier: [Courier]\nTracking No.: [Tracking Number]\n\nPlease feel free to contact us if you have any questions.\n\nBest regards,\n[Name]", "note": "出货后发给客户"}, {"scene": "交期更新", "subject": "Delivery Schedule Update", "template": "Dear [Name],\n\nWe would like to update you on the delivery schedule for [Product/Model].\n\nCurrent status: [Status]\nEstimated completion/shipment date: [Date]\n\nWe are closely following up and will keep you updated on any further progress.\n\nBest regards,\n[Name]", "note": "交期变化或进度更新时使用"}]}</script>
+  <script>
+(function () {
+  const el = document.getElementById('payload');
+  const DATA = JSON.parse(el.textContent);
+  el.remove();
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const chipsEl = $('#chips');
+  let activeCat = '全部';
+
+  function esc(s) {
+    const d = document.createElement('div');
+    d.textContent = s == null ? '' : String(s);
+    return d.innerHTML;
+  }
+
+  const workflowEl = $('#workflow');
+  if (DATA.workflow) {
+    workflowEl.textContent = DATA.workflow;
+  } else {
+    workflowEl.textContent = '（Excel 中「推荐使用流程」未读取到内容，请直接查看原表。）';
+  }
+
+  const tocGrid = $('#toc-grid');
+  DATA.toc.forEach((row) => {
+    const div = document.createElement('div');
+    div.className = 'toc-card';
+    div.innerHTML = `
+      <h3>${esc(row.idx)}. ${esc(row.module)}</h3>
+      <p><strong>用途</strong>：${esc(row.purpose)}<br/>
+      <strong>适合粘贴</strong>：${esc(row.paste)}</p>
+      <div class="freq">${esc(row.freq)}</div>`;
+    tocGrid.appendChild(div);
+  });
+
+  const ob = $('#overview-body');
+  DATA.overview.forEach((row) => {
+    const tr = document.createElement('tr');
+    tr.dataset.filter = [
+      row.cat, row.name, row.scene, row.freq, row.need, row.out
+    ].join(' ');
+    tr.innerHTML = `
+      <td>${esc(row.cat)}</td>
+      <td>${esc(row.name)}</td>
+      <td>${esc(row.scene)}</td>
+      <td>${esc(row.freq)}</td>
+      <td>${esc(row.need)}</td>
+      <td>${esc(row.out)}</td>`;
+    ob.appendChild(tr);
+  });
+
+  function catOfBlock(b) {
+    const t = b.title || '';
+    const idx = t.indexOf('｜');
+    if (idx === -1) return '其他';
+    const left = t.slice(0, idx).trim();
+    const parts = left.split(/\s+/);
+    return parts.slice(1).join(' ') || left;
+  }
+
+  DATA.blocks.forEach((b, i) => {
+    const cat = catOfBlock(b);
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.dataset.category = cat;
+    card.dataset.filter = [
+      b.title,
+      cat,
+      ...Object.values(b.meta || {}),
+      b.prompt || ''
+    ].join(' ');
+    card.id = 'p-' + (i + 1);
+
+    const metaHtml = Object.entries(b.meta || {}).map(([k, v]) =>
+      `<span><strong>${esc(k)}</strong> ${esc(v)}</span>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="card-head">
+        <div>
+          <h3>${esc(b.title)}</h3>
+          <div class="meta-row">${metaHtml}</div>
+        </div>
+      </div>
+      <pre class="prompt">${esc(b.prompt)}</pre>
+      <div class="card-actions">
+        <button type="button" class="btn copy-btn" data-text="">复制提示词</button>
+        <button type="button" class="btn secondary jump-btn">在页面中置顶</button>
+      </div>`;
+
+    const pre = card.querySelector('.prompt');
+    card.querySelector('.copy-btn').dataset.text = b.prompt || '';
+    card.querySelector('.copy-btn').addEventListener('click', () => {
+      navigator.clipboard.writeText(b.prompt || '').then(() => {
+        const btn = card.querySelector('.copy-btn');
+        const o = btn.textContent;
+        btn.textContent = '已复制';
+        setTimeout(() => { btn.textContent = o; }, 1600);
+      });
+    });
+    card.querySelector('.jump-btn').addEventListener('click', () => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.scrollBy(0, -80);
+    });
+
+    $('#cards').appendChild(card);
+  });
+
+  const categories = ['全部', ...DATA.categories];
+  categories.forEach((c) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = c;
+    if (c === '全部') b.classList.add('active');
+    b.addEventListener('click', () => {
+      activeCat = c;
+      chipsEl.querySelectorAll('button').forEach((x) => x.classList.toggle('active', x.textContent === c));
+      applyFilter();
+    });
+    chipsEl.appendChild(b);
+  });
+
+  const qEl = $('#q');
+  function applyFilter() {
+    const q = (qEl.value || '').trim().toLowerCase();
+    document.querySelectorAll('.card').forEach((card) => {
+      const cat = card.dataset.category;
+      const text = (card.dataset.filter || '').toLowerCase();
+      const okCat =
+        activeCat === '全部' || !cat || cat === activeCat;
+      const okQ = !q || text.includes(q);
+      card.classList.toggle('hidden', !(okCat && okQ));
+    });
+    document.querySelectorAll('#overview-body tr').forEach((tr) => {
+      const text = (tr.dataset.filter || '').toLowerCase();
+      const okQ = !q || text.includes(q);
+      tr.classList.toggle('hidden', !okQ);
+    });
+  }
+
+  qEl.addEventListener('input', applyFilter);
+
+  const dailySection = $('#daily-section');
+  const D = DATA.daily;
+  function dailyBox(title, body, note) {
+    const box = document.createElement('div');
+    box.className = 'daily-box';
+    box.innerHTML = `<h4>${esc(title)}</h4><pre>${esc(body)}</pre>${note ? `<p class="note">${esc(note)}</p>` : ''}`;
+    return box;
+  }
+
+  if (D.daily_structure_title) {
+    dailySection.appendChild(dailyBox(D.daily_structure_title, D.daily_structure_body || '', D.daily_tip));
+  }
+  if (D.weekly_structure_title) {
+    dailySection.appendChild(dailyBox(D.weekly_structure_title, D.weekly_structure_body || '', D.weekly_tip));
+  }
+
+  if (D.daily_prompt_title && D.daily_prompt_body) {
+    const wrap = document.createElement('div');
+    wrap.className = 'card';
+    wrap.style.marginTop = '8px';
+    wrap.innerHTML = `
+      <div class="card-head"><h3 style="margin:0;font-family:var(--font-display);font-size:1.05rem;">${esc(D.daily_prompt_title)}</h3></div>
+      <pre class="prompt">${esc(D.daily_prompt_body)}</pre>
+      <div class="card-actions"><button type="button" class="btn copy-daily">复制</button></div>`;
+    wrap.querySelector('.copy-daily').addEventListener('click', () => {
+      navigator.clipboard.writeText(D.daily_prompt_body);
+      const b = wrap.querySelector('.copy-daily');
+      b.textContent = '已复制';
+      setTimeout(() => { b.textContent = '复制'; }, 1400);
+    });
+    dailySection.appendChild(wrap);
+  }
+
+  if (D.weekly_prompt_title && D.weekly_prompt_body) {
+    const wrap = document.createElement('div');
+    wrap.className = 'card';
+    wrap.innerHTML = `
+      <div class="card-head"><h3 style="margin:0;font-family:var(--font-display);font-size:1.05rem;">${esc(D.weekly_prompt_title)}</h3></div>
+      <pre class="prompt">${esc(D.weekly_prompt_body)}</pre>
+      <div class="card-actions"><button type="button" class="btn copy-weekly">复制</button></div>`;
+    wrap.querySelector('.copy-weekly').addEventListener('click', () => {
+      navigator.clipboard.writeText(D.weekly_prompt_body);
+      const b = wrap.querySelector('.copy-weekly');
+      b.textContent = '已复制';
+      setTimeout(() => { b.textContent = '复制'; }, 1400);
+    });
+    dailySection.appendChild(wrap);
+  }
+
+  const eng = $('#english-cards');
+  DATA.english.forEach((row, i) => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.dataset.filter = [row.scene, row.subject, row.template, row.note].join(' ');
+    const text = row.template;
+    card.innerHTML = `
+      <div class="card-head">
+        <div>
+          <h3>${esc(row.scene)}</h3>
+          <div class="meta-row">
+            <span><strong>主题建议</strong> ${esc(row.subject)}</span>
+            <span><strong>说明</strong> ${esc(row.note)}</span>
+          </div>
+        </div>
+      </div>
+      <pre class="prompt">${esc(text)}</pre>
+      <div class="card-actions">
+        <button type="button" class="btn ecopy">复制模板</button>
+      </div>`;
+    card.querySelector('.ecopy').addEventListener('click', () => {
+      navigator.clipboard.writeText(text);
+      const b = card.querySelector('.ecopy');
+      b.textContent = '已复制';
+      setTimeout(() => { b.textContent = '复制模板'; }, 1400);
+    });
+    eng.appendChild(card);
+  });
+})();
+  </script>
+</body>
+</html>
