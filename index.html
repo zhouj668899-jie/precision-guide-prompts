@@ -9,17 +9,21 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
   <style>
 :root {
-  --bg: #f4f1eb;
-  --surface: #fffcf7;
+  --bg: #f0ebe3;
+  --surface: #fffdfb;
   --ink: #1b1917;
   --muted: #57534e;
-  --line: #d6d0c8;
+  --line: #d1cbc2;
   --accent: #0d6b63;
+  --accent-2: #b45309;
   --accent-soft: rgba(13, 107, 99, 0.12);
   --accent-hover: #0a544e;
   --chip: #e7e2da;
-  --shadow: 0 12px 40px rgba(27, 25, 23, 0.08);
+  --shadow: 0 14px 48px rgba(27, 25, 23, 0.07);
+  --shadow-hover: 0 20px 56px rgba(27, 25, 23, 0.11);
   --radius: 14px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.38s;
   --font-ui: "DM Sans", -apple-system, system-ui, sans-serif;
   --font-display: "Source Serif 4", Georgia, serif;
 }
@@ -34,12 +38,23 @@ body {
   color: var(--ink);
   background: var(--bg);
   background-image:
-    radial-gradient(ellipse 900px 500px at 10% -10%, rgba(13, 107, 99, 0.07), transparent 55%),
-    radial-gradient(ellipse 700px 400px at 100% 0%, rgba(180, 83, 9, 0.05), transparent 50%);
+    radial-gradient(ellipse 1000px 520px at 8% -8%, rgba(13, 107, 99, 0.09), transparent 58%),
+    radial-gradient(ellipse 800px 420px at 96% 4%, rgba(180, 83, 9, 0.06), transparent 52%),
+    radial-gradient(ellipse 600px 400px at 50% 100%, rgba(13, 107, 99, 0.04), transparent 45%);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+a { color: var(--accent); transition: color var(--dur) var(--ease-out); }
 a:hover { color: var(--accent-hover); }
 
 .wrap {
@@ -49,12 +64,37 @@ a:hover { color: var(--accent-hover); }
 }
 
 header.hero {
-  padding: 36px 28px 28px;
-  border-radius: calc(var(--radius) + 4px);
-  background: var(--surface);
+  padding: 38px 30px 30px;
+  border-radius: calc(var(--radius) + 6px);
+  background: linear-gradient(165deg, var(--surface) 0%, #faf6ef 100%);
   box-shadow: var(--shadow);
   border: 1px solid var(--line);
-  margin-bottom: 22px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+header.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    #12766e,
+    var(--accent-2),
+    var(--accent)
+  );
+  background-size: 220% 100%;
+  animation: hero-edge 10s ease-in-out infinite;
+}
+
+@keyframes hero-edge {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .hero h1 {
@@ -63,6 +103,7 @@ header.hero {
   font-size: clamp(1.55rem, 3vw, 2rem);
   letter-spacing: -0.02em;
   margin: 0 0 10px;
+  position: relative;
 }
 
 .hero p.lead {
@@ -84,11 +125,18 @@ header.hero {
 }
 
 .hero-meta span {
-  padding: 6px 11px;
+  padding: 7px 13px;
   background: var(--accent-soft);
   color: var(--accent-hover);
   border-radius: 999px;
   font-weight: 500;
+  border: 1px solid rgba(13, 107, 99, 0.15);
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+
+.hero-meta span:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(13, 107, 99, 0.12);
 }
 
 .toolbar {
@@ -99,12 +147,14 @@ header.hero {
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
-  padding: 14px 16px;
+  padding: 14px 18px;
   margin: 0 -4px 22px;
-  background: rgba(244, 241, 235, 0.92);
-  backdrop-filter: blur(10px);
+  background: rgba(240, 235, 227, 0.88);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
   border-radius: var(--radius);
-  border: 1px solid var(--line);
+  border: 1px solid rgba(209, 203, 194, 0.85);
+  box-shadow: 0 4px 24px rgba(27, 25, 23, 0.04);
 }
 
 .toolbar label {
@@ -114,11 +164,18 @@ header.hero {
 
 .toolbar input[type="search"] {
   width: 100%;
-  padding: 11px 14px 11px 38px;
+  padding: 12px 14px 12px 40px;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 12px;
   font: inherit;
   background: var(--surface);
+  transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out), transform 0.15s var(--ease-out);
+}
+
+.toolbar input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .toolbar label::before {
@@ -142,20 +199,33 @@ header.hero {
 .chips button {
   font: inherit;
   font-size: 0.82rem;
-  padding: 8px 13px;
+  padding: 9px 15px;
   border-radius: 999px;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out),
+    transform 0.12s var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
 }
 
-.chips button:hover { background: var(--chip); }
+.chips button:hover {
+  background: var(--chip);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(27, 25, 23, 0.07);
+}
+.chips button:active { transform: scale(0.97); }
 .chips button.active {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+  box-shadow: 0 6px 20px rgba(13, 107, 99, 0.28);
 }
 
 section.block {
@@ -164,16 +234,29 @@ section.block {
 
 section.block > h2 {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.38rem;
   font-weight: 600;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+section.block > h2::before {
+  content: "";
+  width: 4px;
+  height: 1.1em;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--accent), #0a8f84);
+  flex-shrink: 0;
 }
 
 section.block > .sub {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
   color: var(--muted);
   font-size: 0.92rem;
+  text-wrap: pretty;
 }
 
 .panel {
@@ -182,6 +265,11 @@ section.block > .sub {
   border-radius: var(--radius);
   padding: 22px 24px;
   box-shadow: var(--shadow);
+  transition: box-shadow var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+
+.panel:hover {
+  box-shadow: var(--shadow-hover);
 }
 
 .flow-steps {
@@ -214,19 +302,40 @@ table.data th {
   letter-spacing: 0.04em;
 }
 
-table.data tr:hover td { background: rgba(13, 107, 99, 0.04); }
+table.data tr {
+  transition: background 0.2s var(--ease-out), transform 0.15s var(--ease-out);
+}
+table.data tbody tr:active {
+  transform: scale(0.995);
+}
+table.data tr:hover td { background: rgba(13, 107, 99, 0.05); }
 
 .toc-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .toc-card {
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 14px 16px;
-  background: #faf8f5;
+  border-radius: 14px;
+  padding: 16px 18px;
+  background: linear-gradient(145deg, #fdfbf7 0%, #f5f0e8 100%);
+  transition:
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out);
+  cursor: default;
+}
+
+.toc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(13, 107, 99, 0.22);
+}
+
+.toc-card:active {
+  transform: translateY(-1px) scale(0.99);
 }
 
 .toc-card h3 {
@@ -258,12 +367,47 @@ table.data tr:hover td { background: rgba(13, 107, 99, 0.04); }
 .card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--surface) 0%, #fffdfb 100%);
   overflow: hidden;
-  box-shadow: 0 4px 18px rgba(27, 25, 23, 0.05);
+  box-shadow: 0 6px 22px rgba(27, 25, 23, 0.06);
+  transition:
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(13, 107, 99, 0.18);
+}
+
+.card:active {
+  transform: translateY(0) scale(0.996);
+  transition-duration: 0.12s;
 }
 
 .card.hidden { display: none; }
+
+/* 滚动进入视口时的显现（由 JS 添加 .is-visible） */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+}
+
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 
 .card-head {
   padding: 16px 20px;
@@ -315,7 +459,7 @@ pre.prompt {
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: break-word;
-  background: #f0ece4;
+  background: linear-gradient(180deg, #ebe6dc 0%, #e8e2d8 100%);
   border-top: 1px solid var(--line);
   color: #292524;
 }
@@ -333,22 +477,81 @@ pre.prompt {
   font: inherit;
   font-size: 0.85rem;
   font-weight: 600;
-  padding: 9px 16px;
-  border-radius: 10px;
+  padding: 10px 18px;
+  border-radius: 11px;
   border: none;
   cursor: pointer;
-  background: var(--accent);
+  background: linear-gradient(180deg, #0f7a71 0%, var(--accent) 55%, #0a5c56 100%);
   color: #fff;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.15s var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    filter var(--dur) var(--ease-out);
+  box-shadow: 0 4px 14px rgba(13, 107, 99, 0.25);
 }
 
-.btn:hover { background: var(--accent-hover); }
+.btn:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 8px 22px rgba(13, 107, 99, 0.32);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 10px rgba(13, 107, 99, 0.2);
+}
+
 .btn.secondary {
-  background: transparent;
+  background: var(--surface);
   color: var(--accent);
-  border: 1px solid var(--accent);
+  border: 1.5px solid var(--accent);
+  box-shadow: none;
+  filter: none;
 }
 
-.btn.secondary:hover { background: var(--accent-soft); }
+.btn.secondary:hover {
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(13, 107, 99, 0.12);
+}
+
+.btn.secondary:active {
+  transform: scale(0.98);
+}
+
+/* 点击涟漪 */
+.fx-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.45);
+  animation: fx-ripple 0.58s var(--ease-out) forwards;
+}
+
+.chips button:not(.active) .fx-ripple {
+  background: rgba(13, 107, 99, 0.15);
+}
+
+.chips button.active .fx-ripple {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.btn.secondary .fx-ripple {
+  background: rgba(13, 107, 99, 0.12);
+}
+
+@keyframes fx-ripple {
+  from {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
 
 .daily-grid {
   display: grid;
@@ -361,9 +564,15 @@ pre.prompt {
 
 .daily-box {
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 16px 18px;
-  background: #faf8f5;
+  background: linear-gradient(145deg, #faf7f2 0%, #f0ebe4 100%);
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+
+.daily-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(27, 25, 23, 0.08);
 }
 
 .daily-box h4 {
@@ -394,6 +603,45 @@ footer {
 }
 
 #overview-table tbody tr.hidden { display: none; }
+
+.nav-jump {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 22px;
+  padding: 12px 16px;
+  background: rgba(255, 253, 251, 0.65);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 203, 194, 0.7);
+}
+
+.nav-jump a {
+  position: relative;
+  text-decoration: none;
+  padding: 2px 0;
+  margin: 0 2px;
+}
+
+.nav-jump a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.32s var(--ease-out);
+}
+
+.nav-jump a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-jump a:active {
+  color: var(--accent-hover);
+}
   </style>
 </head>
 <body>
@@ -419,7 +667,7 @@ footer {
       <div class="chips" id="chips"></div>
     </div>
 
-    <nav style="font-size:0.88rem;color:var(--muted);margin-bottom:20px;">
+    <nav class="nav-jump">
       快速跳转：
       <a href="#usage">使用说明</a> ·
       <a href="#overview">总览表</a> ·
@@ -507,7 +755,7 @@ footer {
   const tocGrid = $('#toc-grid');
   DATA.toc.forEach((row) => {
     const div = document.createElement('div');
-    div.className = 'toc-card';
+    div.className = 'toc-card reveal-item';
     div.innerHTML = `
       <h3>${esc(row.idx)}. ${esc(row.module)}</h3>
       <p><strong>用途</strong>：${esc(row.purpose)}<br/>
@@ -519,6 +767,7 @@ footer {
   const ob = $('#overview-body');
   DATA.overview.forEach((row) => {
     const tr = document.createElement('tr');
+    tr.className = 'reveal-item';
     tr.dataset.filter = [
       row.cat, row.name, row.scene, row.freq, row.need, row.out
     ].join(' ');
@@ -544,7 +793,7 @@ footer {
   DATA.blocks.forEach((b, i) => {
     const cat = catOfBlock(b);
     const card = document.createElement('article');
-    card.className = 'card';
+    card.className = 'card reveal-item';
     card.dataset.category = cat;
     card.dataset.filter = [
       b.title,
@@ -627,7 +876,7 @@ footer {
   const D = DATA.daily;
   function dailyBox(title, body, note) {
     const box = document.createElement('div');
-    box.className = 'daily-box';
+    box.className = 'daily-box reveal-item';
     box.innerHTML = `<h4>${esc(title)}</h4><pre>${esc(body)}</pre>${note ? `<p class="note">${esc(note)}</p>` : ''}`;
     return box;
   }
@@ -641,7 +890,7 @@ footer {
 
   if (D.daily_prompt_title && D.daily_prompt_body) {
     const wrap = document.createElement('div');
-    wrap.className = 'card';
+    wrap.className = 'card reveal-item';
     wrap.style.marginTop = '8px';
     wrap.innerHTML = `
       <div class="card-head"><h3 style="margin:0;font-family:var(--font-display);font-size:1.05rem;">${esc(D.daily_prompt_title)}</h3></div>
@@ -658,7 +907,7 @@ footer {
 
   if (D.weekly_prompt_title && D.weekly_prompt_body) {
     const wrap = document.createElement('div');
-    wrap.className = 'card';
+    wrap.className = 'card reveal-item';
     wrap.innerHTML = `
       <div class="card-head"><h3 style="margin:0;font-family:var(--font-display);font-size:1.05rem;">${esc(D.weekly_prompt_title)}</h3></div>
       <pre class="prompt">${esc(D.weekly_prompt_body)}</pre>
@@ -674,8 +923,9 @@ footer {
 
   const eng = $('#english-cards');
   DATA.english.forEach((row, i) => {
+    if (String(row.scene) === '场景') return;
     const card = document.createElement('article');
-    card.className = 'card';
+    card.className = 'card reveal-item';
     card.dataset.filter = [row.scene, row.subject, row.template, row.note].join(' ');
     const text = row.template;
     card.innerHTML = `
@@ -700,6 +950,45 @@ footer {
     });
     eng.appendChild(card);
   });
+
+  /* 点击涟漪（主按钮、次要按钮、分类芯片） */
+  document.body.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn, .chips button');
+    if (!btn || btn.disabled) return;
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const ink = document.createElement('span');
+    ink.className = 'fx-ripple';
+    const d = Math.max(rect.width, rect.height) * 2.35;
+    ink.style.width = ink.style.height = d + 'px';
+    ink.style.left = x - d / 2 + 'px';
+    ink.style.top = y - d / 2 + 'px';
+    btn.appendChild(ink);
+    setTimeout(() => ink.remove(), 620);
+  });
+
+  /* 滚动进入视口时淡入上浮 */
+  function initReveal() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.reveal-item').forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            en.target.classList.add('is-visible');
+            io.unobserve(en.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -6% 0px', threshold: 0.05 }
+    );
+    document.querySelectorAll('.reveal-item').forEach((el) => io.observe(el));
+  }
+
+  requestAnimationFrame(() => initReveal());
 })();
   </script>
 </body>
